@@ -29,4 +29,5 @@ void main()
     printf("plist[3] = %p\n", plist[3]); // int형 포인터 배열의 네 번째 인덱스가 가리키는 주소를 출력
     printf("plist[4] = %p\n", plist[4]); // int형 포인터 배열의 다섯 번째 인덱스가 가리키는 주소를 출력
     free(plist[0]); // 동적 메모리 할당된 포인터 배열의 첫 번째 원소를 해제
-}
+}    
+
