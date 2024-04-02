@@ -15,4 +15,4 @@ int main()
 }
 
 // 실제 구조체 내에서 선언된 변수들의 크기의 합은 19byte 이지만  구조체 패딩으로 인해 24byte의 크기를 가지게 됩니다.
-// VScode는 packing 방식이 8byte로 지정되어 있기에 19byte를 24byte로 packing 하게 됩니다. 
+// VScode는 packing 방식이 8byte로 지정되어 있기에 19byte를 24byte로 packing 하게 됩니다.     
