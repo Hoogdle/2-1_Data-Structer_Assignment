@@ -2,38 +2,38 @@
 #include <stdlib.h>
 
 
-// ê°ì²´ ì§€í–¥ í”„ë¡œê·¸ëž˜ë°ì„ ì—°ìŠµí•˜ê¸° ìœ„í•´ ê³¼ì œì—ì„œ ìš”êµ¬í•˜ëŠ” í•¨ìˆ˜ë¥¼ í¬í•¨í•œ ì¶”ê°€ì ì¸ í•¨ìˆ˜ë¥¼ ë§Œë“¤ì—ˆìŠµë‹ˆë‹¤.
+// °´Ã¼ ÁöÇâ ÇÁ·Î±×·¡¹ÖÀ» ¿¬½ÀÇÏ±â À§ÇØ °úÁ¦¿¡¼­ ¿ä±¸ÇÏ´Â ÇÔ¼ö¸¦ Æ÷ÇÔÇÑ Ãß°¡ÀûÀÎ ÇÔ¼ö¸¦ ¸¸µé¾ú½À´Ï´Ù.
 
 
 //*****************************************************************************************
-// ë¬¸ì œì—ì„œ í–‰ë ¬ Aì™€ Bê°€ ì •ì‚¬ê° í–‰ë ¬ì„ ê°€ì •í•˜ëŠ” ê²ƒì¸ì§€ ëª¨ë¥´ê² ìŠµë‹ˆë‹¤. ì„œë¡œ ë‹¤ë¥¸ í¬ê¸°ì˜ í–‰ê³¼ ì—´ì„ ê°€ì§„ë‹¤ë©´ Add,Sub í•¨ìˆ˜ê°€ ì ìš©ì´ ì•ˆ ë ê²ƒì´ê³  í–‰ë ¬ì˜ ê³±ì…ˆì€ Aì˜ ì—´ê³¼ Bì˜ í–‰ì´ ì¼ì¹˜í•  ë•Œë§Œ ê°€ëŠ¥í•  í…ë°
-// ë¬¸ì œì—ì„œëŠ” ì´ì— ëŒ€í•œ ì•„ë¬´ëŸ° ì–¸ê¸‰ì´ ì—†ì–´ ëª¨ë“  ì—°ì‚°ì´ ê°€ëŠ¥í•œ ì •ì‚¬ê° í–‰ë ¬ì„ ê°€ì •í•˜ê³  ì½”ë“œë¥¼ ìž‘ì„±í•˜ì˜€ìŠµë‹ˆë‹¤.
+// ¹®Á¦¿¡¼­ Çà·Ä A¿Í B°¡ Á¤»ç°¢ Çà·ÄÀ» °¡Á¤ÇÏ´Â °ÍÀÎÁö ¸ð¸£°Ú½À´Ï´Ù. ¼­·Î ´Ù¸¥ Å©±âÀÇ Çà°ú ¿­À» °¡Áø´Ù¸é Add,Sub ÇÔ¼ö°¡ Àû¿ëÀÌ ¾È µÉ°ÍÀÌ°í Çà·ÄÀÇ °ö¼ÀÀº AÀÇ ¿­°ú BÀÇ ÇàÀÌ ÀÏÄ¡ÇÒ ¶§¸¸ °¡´ÉÇÒ ÅÙµ¥
+// ¹®Á¦¿¡¼­´Â ÀÌ¿¡ ´ëÇÑ ¾Æ¹«·± ¾ð±ÞÀÌ ¾ø¾î ¸ðµç ¿¬»êÀÌ °¡´ÉÇÑ Á¤»ç°¢ Çà·ÄÀ» °¡Á¤ÇÏ°í ÄÚµå¸¦ ÀÛ¼ºÇÏ¿´½À´Ï´Ù.
 
-// ë¬¸ì œì—ì„œ ìš”êµ¬í•˜ëŠ” ê²ƒì€ Aì™€ Bì˜ ì—°ì‚°ì´ê³  ì—°ì‚°ì˜ ê²°ê³¼ë¥¼ print_matrixë¡œ ì¶œë ¥í•˜ë¼ê³  ìš”êµ¬í•˜ëŠ”ë° ë¬¸ì œì—ì„œ ì œì‹œí•œ print_matrix() í•¨ìˆ˜ëŠ” Aì™€ Bì˜ í–‰ë ¬ì„ ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜ì´ì§€
-// 'ì—°ì‚° ê²°ê³¼'ë¥¼ ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜ëŠ” ì•„ë‹ˆë¼ê³  ìƒê°ë©ë‹ˆë‹¤. ì—°ì‚°ì˜ ê²°ê³¼ë¥¼ A í–‰ë ¬ì— ì €ìž¥í•˜ê±°ë‚˜ B í–‰ë ¬ì— ì €ìž¥í•˜ë¼ëŠ” ë§ì´ ëª…ì‹œë˜ì–´ ìžˆì§€ ì•Šì•„ ì—°ì‚°ì˜ ê²°ê³¼ë¥¼ ì¶œë ¥í•´ì£¼ëŠ” í•¨ìˆ˜'printer'ë¥¼ ìž„ì˜ë¡œ ë§Œë“¤ì—ˆìŠµë‹ˆë‹¤.
-// ë¬¸ì œì—ì„œ ìš”êµ¬í•˜ëŠ” Aì™€ Bë¥¼ ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜ë„ êµ¬í˜„í–ˆìœ¼ë‚˜ ì—°ì‚°ì˜ ê²°ê³¼ëŠ” printer()ë¡œ ì¶œë ¥í•˜ì˜€ìŠµë‹ˆë‹¤. ì œê°€ ë¬¸ì œì˜ ì˜ë„ë¥¼ ìž˜ëª» íŒŒì•…í•œê±°ë¼ë©´ ì£„ì†¡í•©ë‹ˆë‹¤!
+// ¹®Á¦¿¡¼­ ¿ä±¸ÇÏ´Â °ÍÀº A¿Í BÀÇ ¿¬»êÀÌ°í ¿¬»êÀÇ °á°ú¸¦ print_matrix·Î Ãâ·ÂÇÏ¶ó°í ¿ä±¸ÇÏ´Âµ¥ ¹®Á¦¿¡¼­ Á¦½ÃÇÑ print_matrix() ÇÔ¼ö´Â A¿Í BÀÇ Çà·ÄÀ» Ãâ·ÂÇÏ´Â ÇÔ¼öÀÌÁö
+// '¿¬»ê °á°ú'¸¦ Ãâ·ÂÇÏ´Â ÇÔ¼ö´Â ¾Æ´Ï¶ó°í »ý°¢µË´Ï´Ù. ¿¬»êÀÇ °á°ú¸¦ A Çà·Ä¿¡ ÀúÀåÇÏ°Å³ª B Çà·Ä¿¡ ÀúÀåÇÏ¶ó´Â ¸»ÀÌ ¸í½ÃµÇ¾î ÀÖÁö ¾Ê¾Æ ¿¬»êÀÇ °á°ú¸¦ Ãâ·ÂÇØÁÖ´Â ÇÔ¼ö'printer'¸¦ ÀÓÀÇ·Î ¸¸µé¾ú½À´Ï´Ù.
+// ¹®Á¦¿¡¼­ ¿ä±¸ÇÏ´Â A¿Í B¸¦ Ãâ·ÂÇÏ´Â ÇÔ¼öµµ ±¸ÇöÇßÀ¸³ª ¿¬»êÀÇ °á°ú´Â printer()·Î Ãâ·ÂÇÏ¿´½À´Ï´Ù. Á¦°¡ ¹®Á¦ÀÇ ÀÇµµ¸¦ Àß¸ø ÆÄ¾ÇÇÑ°Å¶ó¸é ÁË¼ÛÇÕ´Ï´Ù!
 //*****************************************************************************************
 
 
 
 
-// í–‰ë ¬ì„ ë§Œë“¤ê¸° ìœ„í•œ í•¨ìˆ˜
+// Çà·ÄÀ» ¸¸µé±â À§ÇÑ ÇÔ¼ö
 int ** make_array(int row_num,int column_num){
 
-    ///////////////// (b) ë™ì  ë©”ëª¨ë¦¬í• ë‹¹ ë°©ì‹ìœ¼ë¡œ í–‰ë ¬ ìƒì„± /////////////////
+    ///////////////// (b) µ¿Àû ¸Þ¸ð¸®ÇÒ´ç ¹æ½ÄÀ¸·Î Çà·Ä »ý¼º /////////////////
 
      int **array = (int**)malloc(row_num*sizeof(int*)); 
-    // 2ì°¨ì› ë°°ì—´ì„ ìƒì„±í•˜ê¸° ìœ„í•´ ì´ì¤‘ í¬ì¸í„° arrayì— í–‰ì˜ ê°¯ìˆ˜ë§Œí¼ í¬ì¸í„° ë³€ìˆ˜ë¥¼ ê°€ì§ˆ ìˆ˜ ìžˆëŠ” ë°°ì—´ì„ ë™ì í• ë‹¹
+    // 2Â÷¿ø ¹è¿­À» »ý¼ºÇÏ±â À§ÇØ ÀÌÁß Æ÷ÀÎÅÍ array¿¡ ÇàÀÇ °¹¼ö¸¸Å­ Æ÷ÀÎÅÍ º¯¼ö¸¦ °¡Áú ¼ö ÀÖ´Â ¹è¿­À» µ¿ÀûÇÒ´ç
     
-    // arrayëŠ” array[0],array[1],... ì™€ ê°™ì€ ë°°ì—´ì˜ ì²« ë²ˆì§¸ ì›ì†Œ array[0]ì„ ê°€ë¦¬í‚¤ëŠ” ì´ì¤‘ í¬ì¸í„° ë³€ìˆ˜ì´ë©°
-    // array[0]ëŠ” array[0][0]ì˜ ì£¼ì†Œë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„° ë³€ìˆ˜ìž…ë‹ˆë‹¤.
-    // array[0],array[1],array[2]... ì˜ ì£¼ì†ŒëŠ” ì—°ì†ì ì´ê³ 
-    // array[0][0], array[0][1], array[0][2],...ì˜ ì£¼ì†Œë„ ì—°ì†ì ìž…ë‹ˆë‹¤.
-    // í•˜ì§€ë§Œ array[0][[0] ~ array[1][0]ì˜ ì£¼ì†ŒëŠ” ì—°ì†ì ì´ì§€ ì•ŠìŠµë‹ˆë‹¤.
+    // array´Â array[0],array[1],... ¿Í °°Àº ¹è¿­ÀÇ Ã¹ ¹øÂ° ¿ø¼Ò array[0]À» °¡¸®Å°´Â ÀÌÁß Æ÷ÀÎÅÍ º¯¼öÀÌ¸ç
+    // array[0]´Â array[0][0]ÀÇ ÁÖ¼Ò¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ º¯¼öÀÔ´Ï´Ù.
+    // array[0],array[1],array[2]... ÀÇ ÁÖ¼Ò´Â ¿¬¼ÓÀûÀÌ°í
+    // array[0][0], array[0][1], array[0][2],...ÀÇ ÁÖ¼Òµµ ¿¬¼ÓÀûÀÔ´Ï´Ù.
+    // ÇÏÁö¸¸ array[0][[0] ~ array[1][0]ÀÇ ÁÖ¼Ò´Â ¿¬¼ÓÀûÀÌÁö ¾Ê½À´Ï´Ù.
     for (int i=0;i<row_num;++i){
         array[i] = (int*)malloc(column_num*sizeof(int));
-        // array[i]ëŠ” í¬ì¸í„° ë³€ìˆ˜ì´ë©° ê°€ë¦¬í‚¤ëŠ” ì£¼ì†ŒëŠ” í•˜ë‚˜ì˜ í–‰ì˜ ë°°ì—´ì˜ ì£¼ì†Œìž…ë‹ˆë‹¤.
-        // ìœ„ ì½”ë“œëŠ” ê° array[i] ë§ˆë‹¤ ê° í–‰ì˜ ì£¼ì†Œë¥¼ ê°€ë¦¬í‚¤ë„ë¡ ì£¼ì†Œë¥¼ ë„£ì–´ì£¼ëŠ” ì½”ë“œìž…ë‹ˆë‹¤.
+        // array[i]´Â Æ÷ÀÎÅÍ º¯¼öÀÌ¸ç °¡¸®Å°´Â ÁÖ¼Ò´Â ÇÏ³ªÀÇ ÇàÀÇ ¹è¿­ÀÇ ÁÖ¼ÒÀÔ´Ï´Ù.
+        // À§ ÄÚµå´Â °¢ array[i] ¸¶´Ù °¢ ÇàÀÇ ÁÖ¼Ò¸¦ °¡¸®Å°µµ·Ï ÁÖ¼Ò¸¦ ³Ö¾îÁÖ´Â ÄÚµåÀÔ´Ï´Ù.
     }
     /////////////////////////////////////////////////////////////////////////
     return array;
@@ -42,133 +42,133 @@ int ** make_array(int row_num,int column_num){
 void my_info(){
 
 
-    printf("[----- [ê¹€íƒœì˜] [2023041012] -----]\n");
+    printf("[----- [±èÅÂ¿µ] [2023041012] -----]\n");
 }
 
-// í–‰ë ¬ì„ ëžœë¤ ê°’ìœ¼ë¡œ ì´ˆê¸°í™” í•˜ê¸° ìœ„í•œ í•¨ìˆ˜
+// Çà·ÄÀ» ·£´ý °ªÀ¸·Î ÃÊ±âÈ­ ÇÏ±â À§ÇÑ ÇÔ¼ö
 void put_random(int **array,int row, int column){
-        ///////////////// (c) ëžœë¤ ê°’ìœ¼ë¡œ í–‰ë ¬ ì±„ìš°ê¸° /////////////////
-    for (int i=0;i<row;++i){ // í–‰ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-        for (int j=0;j<column;++j) // ì—´ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-            array[i][j] = rand()%9+1; // 1~9ì¤‘ ëžœë¤ ê°’ì„ array[i][[j]ì˜ ê°’ìœ¼ë¡œ ì´ˆê¸°í™”
+        ///////////////// (c) ·£´ý °ªÀ¸·Î Çà·Ä Ã¤¿ì±â /////////////////
+    for (int i=0;i<row;++i){ // ÇàÀ» Å½»öÇÏ±â À§ÇÑ for¹®
+        for (int j=0;j<column;++j) // ¿­À» Å½»öÇÏ±â À§ÇÑ for¹®
+            array[i][j] = rand()%9+1; // 1~9Áß ·£´ý °ªÀ» array[i][[j]ÀÇ °ªÀ¸·Î ÃÊ±âÈ­
     }
     /////////////////////////////////////////////////////////////////////////
 }
 
-// í–‰ë ¬ ì¶œë ¥ì„ ê°„ë‹¨ížˆ í•˜ê¸° ìœ„í•œ ë³´ì¡°í•¨ìˆ˜ printer
-void printer(int **array,int row_num,int column_num){ // ë§¤ê°œë³€ìˆ˜ë¡œ ì´ì¤‘ í¬ì¸í„°ì¸ arrayì™€ í–‰ê³¼ ì—´ì˜ ì •ìˆ˜ ê°’ì„ ë°›ìŠµë‹ˆë‹¤.
+// Çà·Ä Ãâ·ÂÀ» °£´ÜÈ÷ ÇÏ±â À§ÇÑ º¸Á¶ÇÔ¼ö printer
+void printer(int **array,int row_num,int column_num){ // ¸Å°³º¯¼ö·Î ÀÌÁß Æ÷ÀÎÅÍÀÎ array¿Í Çà°ú ¿­ÀÇ Á¤¼ö °ªÀ» ¹Þ½À´Ï´Ù.
     for(int i=0;i<row_num;++i){
         for(int j=0;j<column_num;++j){
-            printf("%d\t",array[i][j]); // ì´ì¤‘ forë¬¸ìœ¼ë¡œ ê° í–‰ë§ˆë‹¤ì˜ ëª¨ë“  ì—´ì˜ ë°ì´í„°ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
+            printf("%d\t",array[i][j]); // ÀÌÁß for¹®À¸·Î °¢ Çà¸¶´ÙÀÇ ¸ðµç ¿­ÀÇ µ¥ÀÌÅÍ¸¦ Ãâ·ÂÇÕ´Ï´Ù.
         }
         printf("\n");
     }
 }
 
-///////////////// (d) print_matrix êµ¬í˜„ /////////////////
-void print_matrix(int **array_a, int ** array_b,int row,int col){ // í•¨ìˆ˜ì˜ ë§¤ê°œë³€ìˆ˜ë¡œ ì´ì¤‘ í¬ì¸í„° ë³€ìˆ˜ì¸ í–‰ë ¬ Aì™€ í–‰ë ¬ Bë¥¼ ë°›ê³  í–‰ê³¼ ì—´ì˜ í¬ê¸°ë¥¼ ë°›ìŠµë‹ˆë‹¤.
+///////////////// (d) print_matrix ±¸Çö /////////////////
+void print_matrix(int **array_a, int ** array_b,int row,int col){ // ÇÔ¼öÀÇ ¸Å°³º¯¼ö·Î ÀÌÁß Æ÷ÀÎÅÍ º¯¼öÀÎ Çà·Ä A¿Í Çà·Ä B¸¦ ¹Þ°í Çà°ú ¿­ÀÇ Å©±â¸¦ ¹Þ½À´Ï´Ù.
     printf("Matrix A\n");
-    printer(array_a,row,col); // ë³´ì¡°í•¨ìˆ˜ printerì˜ ì¸ìžë¡œ í–‰ë ¬ aì™€ í–‰ê³¼ ì—´ì˜ í¬ê¸°ë¥¼ ì¤ë‹ˆë‹¤.
+    printer(array_a,row,col); // º¸Á¶ÇÔ¼ö printerÀÇ ÀÎÀÚ·Î Çà·Ä a¿Í Çà°ú ¿­ÀÇ Å©±â¸¦ ÁÝ´Ï´Ù.
     printf("Matrix B\n");
-    printer(array_b,row,col); // ë³´ì¡°í•¨ìˆ˜ printerì˜ ì¸ìžë¡œ í–‰ë ¬ bì™€ í–‰ê³¼ ì—´ì˜ í¬ê¸°ë¥¼ ì¤ë‹ˆë‹¤.
+    printer(array_b,row,col); // º¸Á¶ÇÔ¼ö printerÀÇ ÀÎÀÚ·Î Çà·Ä b¿Í Çà°ú ¿­ÀÇ Å©±â¸¦ ÁÝ´Ï´Ù.
 }
 /////////////////////////////////////////////////////////////////////////
 
-///////////////// (e) addtion_matrix êµ¬í˜„ /////////////////
-void additon_matrix(int **array_a, int ** array_b,int row,int col){ // í•¨ìˆ˜ì˜ ë§¤ê°œë³€ìˆ˜ë¡œ ì´ì¤‘ í¬ì¸í„° ë³€ìˆ˜ì¸ í–‰ë ¬ Aì™€ í–‰ë ¬ Bë¥¼ ë°›ê³  í–‰ê³¼ ì—´ì˜ í¬ê¸°ë¥¼ ë°›ìŠµë‹ˆë‹¤.
-    int **temp = make_array(row,col); // ìƒˆë¡œìš´ ì´ì¤‘ í¬ì¸í„° tempë¥¼ í–‰ë ¬ ìƒì„±í•¨ìˆ˜ make_arrayë¡œ ì´ˆê¸°í™” í•©ë‹ˆë‹¤.
-    for (int i=0;i<row;++i){ // í–‰ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-        for (int j=0;j<col;++j) // ì—´ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-            temp[i][j] = array_a[i][j] + array_b[i][j]; // í–‰ë ¬ì˜ ê°ê°ì˜ ìš”ì†Œì˜ ì„œë¡œ ë™ì¼í•œ ì¸ë±ìŠ¤ë¥¼ ê³µìœ í•˜ëŠ” ìš”ì†Œì™€ ë”í•©ë‹ˆë‹¤. ê·¸ ê²°ê³¼ë¥¼ 2ì°¨ì› ë°°ì—´ tempì— ì €ìž¥í•©ë‹ˆë‹¤.
+///////////////// (e) addtion_matrix ±¸Çö /////////////////
+void additon_matrix(int **array_a, int ** array_b,int row,int col){ // ÇÔ¼öÀÇ ¸Å°³º¯¼ö·Î ÀÌÁß Æ÷ÀÎÅÍ º¯¼öÀÎ Çà·Ä A¿Í Çà·Ä B¸¦ ¹Þ°í Çà°ú ¿­ÀÇ Å©±â¸¦ ¹Þ½À´Ï´Ù.
+    int **temp = make_array(row,col); // »õ·Î¿î ÀÌÁß Æ÷ÀÎÅÍ temp¸¦ Çà·Ä »ý¼ºÇÔ¼ö make_array·Î ÃÊ±âÈ­ ÇÕ´Ï´Ù.
+    for (int i=0;i<row;++i){ // ÇàÀ» Å½»öÇÏ±â À§ÇÑ for¹®
+        for (int j=0;j<col;++j) // ¿­À» Å½»öÇÏ±â À§ÇÑ for¹®
+            temp[i][j] = array_a[i][j] + array_b[i][j]; // Çà·ÄÀÇ °¢°¢ÀÇ ¿ä¼ÒÀÇ ¼­·Î µ¿ÀÏÇÑ ÀÎµ¦½º¸¦ °øÀ¯ÇÏ´Â ¿ä¼Ò¿Í ´õÇÕ´Ï´Ù. ±× °á°ú¸¦ 2Â÷¿ø ¹è¿­ temp¿¡ ÀúÀåÇÕ´Ï´Ù.
         } 
     printf("-----------------------------------------------------\n");
     printf("Result of Add\n");
-    printer(temp,row,col); // printer() ë¡œ 2ì°¨ì› ë°°ì—´ tempë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
+    printer(temp,row,col); // printer() ·Î 2Â÷¿ø ¹è¿­ temp¸¦ Ãâ·ÂÇÕ´Ï´Ù.
     printf("-----------------------------------------------------\n");
-    free(temp); // ë™ì  ë©”ëª¨ë¦¬í• ë‹¹ ëœ tempë¥¼ ë©”ëª¨ë¦¬ í•´ì§€í•©ë‹ˆë‹¤.
+    free(temp); // µ¿Àû ¸Þ¸ð¸®ÇÒ´ç µÈ temp¸¦ ¸Þ¸ð¸® ÇØÁöÇÕ´Ï´Ù.
 }
 /////////////////////////////////////////////////////////////////////////
 
-///////////////// (f) subtraction_matrix êµ¬í˜„ /////////////////
-void subtraction_matrix(int **array_a, int ** array_b,int row,int col){ //í•¨ìˆ˜ì˜ ë§¤ê°œë³€ìˆ˜ë¡œ ì´ì¤‘ í¬ì¸í„° ë³€ìˆ˜ì¸ í–‰ë ¬ Aì™€ í–‰ë ¬ Bë¥¼ ë°›ê³  í–‰ê³¼ ì—´ì˜ í¬ê¸°ë¥¼ ë°›ìŠµë‹ˆë‹¤.
-    int **temp = make_array(row,col); // ìƒˆë¡œìš´ ì´ì¤‘ í¬ì¸í„° tempë¥¼ í–‰ë ¬ ìƒì„±í•¨ìˆ˜ make_arrayë¡œ ì´ˆê¸°í™” í•©ë‹ˆë‹¤.
-    for (int i=0;i<row;++i){ // í–‰ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-        for (int j=0;j<col;++j) // ì—´ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-            temp[i][j] = array_a[i][j] - array_b[i][j]; // í–‰ë ¬ì˜ ê°ê°ì˜ ìš”ì†Œì˜ ì„œë¡œ ë™ì¼í•œ ì¸ë±ìŠ¤ë¥¼ ê³µìœ í•˜ëŠ” ìš”ì†Œì™€ -ì—°ì‚°ì„ í•©ë‹ˆë‹¤. ê·¸ ê²°ê³¼ë¥¼ 2ì°¨ì› ë°°ì—´ tempì— ì €ìž¥í•©ë‹ˆë‹¤.
+///////////////// (f) subtraction_matrix ±¸Çö /////////////////
+void subtraction_matrix(int **array_a, int ** array_b,int row,int col){ //ÇÔ¼öÀÇ ¸Å°³º¯¼ö·Î ÀÌÁß Æ÷ÀÎÅÍ º¯¼öÀÎ Çà·Ä A¿Í Çà·Ä B¸¦ ¹Þ°í Çà°ú ¿­ÀÇ Å©±â¸¦ ¹Þ½À´Ï´Ù.
+    int **temp = make_array(row,col); // »õ·Î¿î ÀÌÁß Æ÷ÀÎÅÍ temp¸¦ Çà·Ä »ý¼ºÇÔ¼ö make_array·Î ÃÊ±âÈ­ ÇÕ´Ï´Ù.
+    for (int i=0;i<row;++i){ // ÇàÀ» Å½»öÇÏ±â À§ÇÑ for¹®
+        for (int j=0;j<col;++j) // ¿­À» Å½»öÇÏ±â À§ÇÑ for¹®
+            temp[i][j] = array_a[i][j] - array_b[i][j]; // Çà·ÄÀÇ °¢°¢ÀÇ ¿ä¼ÒÀÇ ¼­·Î µ¿ÀÏÇÑ ÀÎµ¦½º¸¦ °øÀ¯ÇÏ´Â ¿ä¼Ò¿Í -¿¬»êÀ» ÇÕ´Ï´Ù. ±× °á°ú¸¦ 2Â÷¿ø ¹è¿­ temp¿¡ ÀúÀåÇÕ´Ï´Ù.
      }
     printf("-----------------------------------------------------\n");
     printf("Result of Sub\n");
-    printer(temp,row,col); // printer() ë¡œ 2ì°¨ì› ë°°ì—´ tempë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
+    printer(temp,row,col); // printer() ·Î 2Â÷¿ø ¹è¿­ temp¸¦ Ãâ·ÂÇÕ´Ï´Ù.
     printf("-----------------------------------------------------\n");
-    free(temp); // ë™ì  ë©”ëª¨ë¦¬í• ë‹¹ ëœ tempë¥¼ ë©”ëª¨ë¦¬ í•´ì§€í•©ë‹ˆë‹¤.
+    free(temp); // µ¿Àû ¸Þ¸ð¸®ÇÒ´ç µÈ temp¸¦ ¸Þ¸ð¸® ÇØÁöÇÕ´Ï´Ù.
 }
 /////////////////////////////////////////////////////////////////////////
 
-///////////////// (g) transpose_matrix êµ¬í˜„ /////////////////
-void transpose_matrix(int **array,int row,int col){ // ì´ì¤‘ í¬ì¸í„° ë³€ìˆ˜ 1ê°œ(í–‰ë ¬ A)ì™€ í–‰ê³¼ ì—´ì˜ ê°’ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ìŠµë‹ˆë‹¤.
-    int **temp = make_array(col,row); // ìƒˆë¡œìš´ ì´ì¤‘ í¬ì¸í„° tempë¥¼ í–‰ë ¬ ìƒì„±í•¨ìˆ˜ make_arrayë¡œ ì´ˆê¸°í™” í•©ë‹ˆë‹¤.
-    for (int i=0;i<row;++i){ // í–‰ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-        for (int j=0;j<col;++j) // ì—´ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-            temp[j][i] = array[i][j]; // í–‰ë ¬ Aì˜ í–‰ê³¼ ì—´ì˜ ìš”ì†Œë¥¼ ì—´->í–‰ ìˆœìœ¼ë¡œ tempì— ë„£ì–´ì¤ë‹ˆë‹¤.
+///////////////// (g) transpose_matrix ±¸Çö /////////////////
+void transpose_matrix(int **array,int row,int col){ // ÀÌÁß Æ÷ÀÎÅÍ º¯¼ö 1°³(Çà·Ä A)¿Í Çà°ú ¿­ÀÇ °ªÀ» ¸Å°³º¯¼ö·Î ¹Þ½À´Ï´Ù.
+    int **temp = make_array(col,row); // »õ·Î¿î ÀÌÁß Æ÷ÀÎÅÍ temp¸¦ Çà·Ä »ý¼ºÇÔ¼ö make_array·Î ÃÊ±âÈ­ ÇÕ´Ï´Ù.
+    for (int i=0;i<row;++i){ // ÇàÀ» Å½»öÇÏ±â À§ÇÑ for¹®
+        for (int j=0;j<col;++j) // ¿­À» Å½»öÇÏ±â À§ÇÑ for¹®
+            temp[j][i] = array[i][j]; // Çà·Ä AÀÇ Çà°ú ¿­ÀÇ ¿ä¼Ò¸¦ ¿­->Çà ¼øÀ¸·Î temp¿¡ ³Ö¾îÁÝ´Ï´Ù.
     }
     printf("-----------------------------------------------------\n");
     printf("Result of Transpose of A\n");
-    printer(temp,col,row); //printer() ë¡œ 2ì°¨ì› ë°°ì—´ tempë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤. // transposeì´ê¸°ì— í–‰ê³¼ ì—´ì˜ ì°¨ì›ì´ ë°”ë€ë‹ˆë‹¤.
+    printer(temp,col,row); //printer() ·Î 2Â÷¿ø ¹è¿­ temp¸¦ Ãâ·ÂÇÕ´Ï´Ù. // transposeÀÌ±â¿¡ Çà°ú ¿­ÀÇ Â÷¿øÀÌ ¹Ù²ò´Ï´Ù.
     printf("-----------------------------------------------------\n");
-    free(temp); // ë™ì  ë©”ëª¨ë¦¬í• ë‹¹ ëœ tempë¥¼ ë©”ëª¨ë¦¬ í•´ì§€í•©ë‹ˆë‹¤.
+    free(temp); // µ¿Àû ¸Þ¸ð¸®ÇÒ´ç µÈ temp¸¦ ¸Þ¸ð¸® ÇØÁöÇÕ´Ï´Ù.
 }
 /////////////////////////////////////////////////////////////////////////
 
-///////////////// (h) multiply_matrix êµ¬í˜„ /////////////////
-void multiply_matrix(int **array_a, int ** array_b,int row,int col){ // ë§¤ê°œë³€ìˆ˜ë¡œ ì´ì¤‘ í¬ì¸í„° ë³€ìˆ˜ ë‘ê°œì™€ í–‰ê³¼ ì—´ì˜ ê°’ì„ ë°›ìŠµë‹ˆë‹¤.
-    int **temp = make_array(row,col); // ìƒˆë¡œìš´ ì´ì¤‘ í¬ì¸í„° tempë¥¼ í–‰ë ¬ ìƒì„±í•¨ìˆ˜ make_arrayë¡œ ì´ˆê¸°í™” í•©ë‹ˆë‹¤.
-    for (int i=0;i<row;++i){  // í–‰ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-        for (int j=0;j<col;++j){ // ì—´ì„ íƒìƒ‰í•˜ê¸° ìœ„í•œ forë¬¸
-            int value = 0; // í–‰ë ¬ì˜ ê³± ì—°ì‚°ì—ì„œ ê° ì›ì†Œì˜ ê³±ì„ ì €ìž¥í•  ë³€ìˆ˜ value
-            for (int k=0;k<col;++k){ // ì—´ì˜ ê°¯ìˆ˜ë§Œ í¼ kë¥¼ ë°˜ë³µ
-            value += array_a[i][k] * array_b[k][j]; // iì™€ jë¥¼ ê³ ì •í–ˆì„ ë•Œ kë¥¼ aì—ì„œëŠ” ìˆ˜í‰ë°©í–¥ bì—ì„œëŠ” ìˆ˜ì§ë°©í–¥ìœ¼ë¡œ ì›€ì§ì´ê²Œ í•˜ì—¬ í–‰ë ¬ì˜ ê³±ì…ˆ ì—°ì‚°ì„ êµ¬í˜„ í•˜ì˜€ìŠµë‹ˆë‹¤.
+///////////////// (h) multiply_matrix ±¸Çö /////////////////
+void multiply_matrix(int **array_a, int ** array_b,int row,int col){ // ¸Å°³º¯¼ö·Î ÀÌÁß Æ÷ÀÎÅÍ º¯¼ö µÎ°³¿Í Çà°ú ¿­ÀÇ °ªÀ» ¹Þ½À´Ï´Ù.
+    int **temp = make_array(row,col); // »õ·Î¿î ÀÌÁß Æ÷ÀÎÅÍ temp¸¦ Çà·Ä »ý¼ºÇÔ¼ö make_array·Î ÃÊ±âÈ­ ÇÕ´Ï´Ù.
+    for (int i=0;i<row;++i){  // ÇàÀ» Å½»öÇÏ±â À§ÇÑ for¹®
+        for (int j=0;j<col;++j){ // ¿­À» Å½»öÇÏ±â À§ÇÑ for¹®
+            int value = 0; // Çà·ÄÀÇ °ö ¿¬»ê¿¡¼­ °¢ ¿ø¼ÒÀÇ °öÀ» ÀúÀåÇÒ º¯¼ö value
+            for (int k=0;k<col;++k){ // ¿­ÀÇ °¹¼ö¸¸ Å­ k¸¦ ¹Ýº¹
+            value += array_a[i][k] * array_b[k][j]; // i¿Í j¸¦ °íÁ¤ÇßÀ» ¶§ k¸¦ a¿¡¼­´Â ¼öÆò¹æÇâ b¿¡¼­´Â ¼öÁ÷¹æÇâÀ¸·Î ¿òÁ÷ÀÌ°Ô ÇÏ¿© Çà·ÄÀÇ °ö¼À ¿¬»êÀ» ±¸Çö ÇÏ¿´½À´Ï´Ù.
             }
-            temp[i][j] = value; // ê³±ì˜ ê²°ê³¼ë¥¼ 2ì°¨ì› ë°°ì—´ tempì— ì €ìž¥
+            temp[i][j] = value; // °öÀÇ °á°ú¸¦ 2Â÷¿ø ¹è¿­ temp¿¡ ÀúÀå
         }
     }
     printf("-----------------------------------------------------\n");
     printf("Result of Mul\n");
-    printer(temp,row,col); //printer() ë¡œ 2ì°¨ì› ë°°ì—´ tempë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤. 
+    printer(temp,row,col); //printer() ·Î 2Â÷¿ø ¹è¿­ temp¸¦ Ãâ·ÂÇÕ´Ï´Ù. 
     printf("-----------------------------------------------------\n");
-    free(temp); // ë™ì  ë©”ëª¨ë¦¬í• ë‹¹ ëœ tempë¥¼ ë©”ëª¨ë¦¬ í•´ì§€í•©ë‹ˆë‹¤.
+    free(temp); // µ¿Àû ¸Þ¸ð¸®ÇÒ´ç µÈ temp¸¦ ¸Þ¸ð¸® ÇØÁöÇÕ´Ï´Ù.
 }
 /////////////////////////////////////////////////////////////////////////
 
 
-///////////////// (j) ë©”ëª¨ë¦¬ í•´ì œ í•¨ìˆ˜ /////////////////
-void free_matrix(int **array){ // ë§¤ê°œë³€ìˆ˜ë¡œ ì´ì¤‘ í¬ì¸í„°ë¥¼ ë°›ìŠµë‹ˆë‹¤.
-    free(array); // free í•¨ìˆ˜ë¡œ ë™ì í• ë‹¹ ëœ arrayë¥¼ í•´ì§€í•©ë‹ˆë‹¤.
+///////////////// (j) ¸Þ¸ð¸® ÇØÁ¦ ÇÔ¼ö /////////////////
+void free_matrix(int **array){ // ¸Å°³º¯¼ö·Î ÀÌÁß Æ÷ÀÎÅÍ¸¦ ¹Þ½À´Ï´Ù.
+    free(array); // free ÇÔ¼ö·Î µ¿ÀûÇÒ´ç µÈ array¸¦ ÇØÁöÇÕ´Ï´Ù.
 }
 /////////////////////////////////////////////////////////////////////////
 
 
 int main(){
     my_info();
-    ///////////////// (a) í–‰ë ¬ Aì™€ Bì˜ í–‰ê³¼ ì—´ì˜ ê°’ì„ ìž…ë ¥ ë°›ëŠ”ë‹¤. /////////////////
-    int row_num,column_num; // í–‰ë ¬ì˜ í–‰ê³¼ ì—´ì˜ ê°¯ìˆ˜ ë³€ìˆ˜
-    scanf("%d %d",&row_num,&column_num); // í–‰ë ¬ Aì˜ í–‰ê³¼ ì—´ì˜ ê°¯ìˆ˜ ìž…ë ¥ ë°›ê¸°
+    ///////////////// (a) Çà·Ä A¿Í BÀÇ Çà°ú ¿­ÀÇ °ªÀ» ÀÔ·Â ¹Þ´Â´Ù. /////////////////
+    int row_num,column_num; // Çà·ÄÀÇ Çà°ú ¿­ÀÇ °¹¼ö º¯¼ö
+    scanf("%d %d",&row_num,&column_num); // Çà·Ä AÀÇ Çà°ú ¿­ÀÇ °¹¼ö ÀÔ·Â ¹Þ±â
     /////////////////////////////////////////////////////////////////////////
 
-    int **array_a = make_array(row_num,column_num); // make_array í•¨ìˆ˜ë¡œ ìž…ë ¥ ë°›ì€ í–‰ê³¼ ì—´ì˜ í¬ê¸°ë§Œí¼ì˜ Aí–‰ë ¬ ìƒì„±
-    int **array_b = make_array(row_num,column_num); // make_array í•¨ìˆ˜ë¡œ ìž…ë ¥ ë°›ì€ í–‰ê³¼ ì—´ì˜ í¬ê¸°ë§Œí¼ì˜ Bí–‰ë ¬ ìƒì„±
+    int **array_a = make_array(row_num,column_num); // make_array ÇÔ¼ö·Î ÀÔ·Â ¹ÞÀº Çà°ú ¿­ÀÇ Å©±â¸¸Å­ÀÇ AÇà·Ä »ý¼º
+    int **array_b = make_array(row_num,column_num); // make_array ÇÔ¼ö·Î ÀÔ·Â ¹ÞÀº Çà°ú ¿­ÀÇ Å©±â¸¸Å­ÀÇ BÇà·Ä »ý¼º
 
-    put_random(array_a,row_num,column_num); // put_random í•¨ìˆ˜ë¡œ Aí–‰ë ¬ì„ ëžœë¤ê°’ìœ¼ë¡œ ì´ˆê¸°í™”
-    put_random(array_b,row_num,column_num); // put_random í•¨ìˆ˜ë¡œ Bí–‰ë ¬ì„ ëžœë¤ê°’ìœ¼ë¡œ ì´ˆê¸°í™”
+    put_random(array_a,row_num,column_num); // put_random ÇÔ¼ö·Î AÇà·ÄÀ» ·£´ý°ªÀ¸·Î ÃÊ±âÈ­
+    put_random(array_b,row_num,column_num); // put_random ÇÔ¼ö·Î BÇà·ÄÀ» ·£´ý°ªÀ¸·Î ÃÊ±âÈ­
 
 
-    print_matrix(array_a,array_b,row_num,column_num); // Aí–‰ë ¬ê³¼ Bí–‰ë ¬ì„ ì¶œë ¥í•©ë‹ˆë‹¤.
-    additon_matrix(array_a,array_b,row_num,column_num); // Aí–‰ë ¬ê³¼ Bí–‰ë ¬ì˜ ë§ì…ˆ ê²°ê³¼ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
-    subtraction_matrix(array_a,array_b,row_num,column_num); // Aí–‰ë ¬ê³¼ Bí–‰ë ¬ì˜ -ì—°ì‚° ê²°ê³¼ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
-    transpose_matrix(array_a,row_num,column_num); // Aí–‰ë ¬ì˜ ì „ì¹˜ í–‰ë ¬ì„ ì¶œë ¥í•©ë‹ˆë‹¤.
-    multiply_matrix(array_a,array_b,row_num,column_num); // Aí–‰ë ¬ê³¼ Bí–‰ë ¬ì˜ ê³±ì˜ ê²°ê³¼ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
+    print_matrix(array_a,array_b,row_num,column_num); // AÇà·Ä°ú BÇà·ÄÀ» Ãâ·ÂÇÕ´Ï´Ù.
+    additon_matrix(array_a,array_b,row_num,column_num); // AÇà·Ä°ú BÇà·ÄÀÇ µ¡¼À °á°ú¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+    subtraction_matrix(array_a,array_b,row_num,column_num); // AÇà·Ä°ú BÇà·ÄÀÇ -¿¬»ê °á°ú¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+    transpose_matrix(array_a,row_num,column_num); // AÇà·ÄÀÇ ÀüÄ¡ Çà·ÄÀ» Ãâ·ÂÇÕ´Ï´Ù.
+    multiply_matrix(array_a,array_b,row_num,column_num); // AÇà·Ä°ú BÇà·ÄÀÇ °öÀÇ °á°ú¸¦ Ãâ·ÂÇÕ´Ï´Ù.
 
-    free_matrix(array_a); // ë™ì  ë©”ëª¨ë¦¬ í• ë‹¹ëœ Aí–‰ë ¬ì„ ë©”ëª¨ë¦¬ í•´ì§€í•©ë‹ˆë‹¤.
-    free_matrix(array_b); // ë™ì  ë©”ëª¨ë¦¬ í• ë‹¹ëœ Bí–‰ë ¬ì„ ë©”ëª¨ë¦¬ í•´ì§€í•©ë‹ˆë‹¤.
+    free_matrix(array_a); // µ¿Àû ¸Þ¸ð¸® ÇÒ´çµÈ AÇà·ÄÀ» ¸Þ¸ð¸® ÇØÁöÇÕ´Ï´Ù.
+    free_matrix(array_b); // µ¿Àû ¸Þ¸ð¸® ÇÒ´çµÈ BÇà·ÄÀ» ¸Þ¸ð¸® ÇØÁöÇÕ´Ï´Ù.
 
     return 0;
 }
