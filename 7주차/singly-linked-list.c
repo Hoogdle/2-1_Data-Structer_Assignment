@@ -12,13 +12,13 @@ Node* initialize(){
     return temp;
 }
 
-void insertNode(Node ** node,int data){
+int insertNode(Node ** node,int data){
     Node* temp;
     temp = (Node*)malloc(sizeof(Node));
     temp -> data = data;
     if(!node){ // node가 비어있는 경우
         node = temp;
-        return;
+        return 0;
     }
     while((*node)->next != NULL && (*node)->data < data){
         (*node) = (*node)->next;
@@ -35,6 +35,15 @@ void insertNode(Node ** node,int data){
     }
     
 }
+
+int insertFirst(Node ** node,int data){
+    Node* temp;
+    temp = (Node*)malloc(sizeof(Node));
+    temp -> data = data;
+    (*node) = temp;
+}
+
+int insertLast
 
 int main(){
     Node* Head;
