@@ -64,6 +64,12 @@ int inverList(Node ** node){
     b_head = (*node);
     s_head = NULL;
 
+    s_head = b_head;
+    s_head -> next = NULL;
+    b_head = b_head->next;
+    *node = b_head;
+    (*node)->next = s_head;
+
     while(b_head->next != NULL){
         s_head = b_head;
         b_head = b_head->next;
@@ -73,6 +79,40 @@ int inverList(Node ** node){
     }
     return 0;
 }
+
+void deleteNode(Node **node,int data){
+    Node* mover = *node;
+    Node* b_mover = NULL;
+
+    if(!(*node)){ // node가 비어있는 경우
+        *node = temp;
+        return 0;
+    }
+    while(mover->next != NULL && mover->data != data){
+        b_mover = mover;
+        mover = mover->next;
+    }
+    if(mover->next != NULL){ // 마지막인경우
+        return;
+    }
+    else{
+        
+    }
+}
+
+void deleteLast(Node **node,int data){
+
+}
+
+void deleteFirst(Node **node,int data){
+
+}
+
+
+void Print(Node *node){
+
+}
+
 
 int main(){
     Node* Head;
