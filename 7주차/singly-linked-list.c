@@ -16,21 +16,24 @@ int insertNode(Node ** node,int data){
     Node* temp;
     temp = (Node*)malloc(sizeof(Node));
     temp -> data = data;
-    if(!node){ // node가 비어있는 경우
-        node = temp;
+
+    Node* mover = *node;
+
+    if(!(*node)){ // node가 비어있는 경우
+        *node = temp;
         return 0;
     }
-    while((*node)->next != NULL && (*node)->data < data){
-        (*node) = (*node)->next;
+    while(mover->next != NULL && mover->data < data){
+        mover = mover->next;
     }
-    if((*node)->next != NULL){ // 마지막인경우
-        (*node)->next = temp;
-        temp = NULL;
+    if(mover->next != NULL){ // 마지막인경우
+        mover->next = temp;
+        temp->next = NULL;
     }
     else{ // 중간인경우
         Node* messenger;
-        messenger = (*node)->next;
-        (*node)->next = temp;
+        messenger = mover->next;
+        mover->next = temp;
         temp->next = messenger;
     }
     
@@ -43,7 +46,33 @@ int insertFirst(Node ** node,int data){
     (*node) = temp;
 }
 
-int insertLast
+int insertLast(Node ** node,int data){
+    Node* temp;
+    temp = (Node*)malloc(sizeof(Node));
+
+    Node* mover = *node;
+    while(mover->next != NULL){
+        mover = mover->next;
+    }
+    mover->next = temp;
+}
+
+int inverList(Node ** node){
+    Node* b_head;
+    Node* s_head;
+
+    b_head = (*node);
+    s_head = NULL;
+
+    while(b_head->next != NULL){
+        s_head = b_head;
+        b_head = b_head->next;
+        
+        *node = b_head;
+        (*node)->next = s_head;
+    }
+    return 0;
+}
 
 int main(){
     Node* Head;
