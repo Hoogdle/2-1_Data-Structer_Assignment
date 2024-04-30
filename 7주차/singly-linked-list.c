@@ -86,6 +86,10 @@ int invertList(Node ** node){
 
     s_head = *node;
     b_head = (*node)->next;
+    if(s_head==NULL || b_head==NULL){
+        printf("Cannot Reverse!\n");
+        return 0;
+    }
     temp = b_head->next;
 
     s_head -> next = NULL;
@@ -111,19 +115,31 @@ void deleteNode(Node **node,int data){
     Node* mover = *node;
     Node* b_mover = NULL;
 
-   
     while(mover->next != NULL && mover->data != data){ // mover 움직이기
         b_mover = mover;
         mover = mover->next;
     }
-    if(mover->next != NULL){ // 마지막인경우
-        if(mover->data != data){
+    if(mover->next == NULL){ // 마지막인경우
+        if(mover->data == data){
+            b_mover->next = NULL;
+            free(mover);
+            return;
+        }
+        else{
             return;
         }
     }
     else{ // 마지막이 아닌 경우, 찾는 data를 찾은 경우
-        b_mover->next = mover->next;
-        mover -> next = NULL;
+        if(b_mover==NULL){
+            mover = (*node)->next;
+            free(*node);
+            (*node) = mover;
+        }
+        else{
+            b_mover->next = mover->next;
+            mover -> next = NULL;
+            free(mover);
+        }
     }
 }
 
@@ -134,6 +150,8 @@ void deleteLast(Node **node){
         b_mover = mover;
         mover = mover->next;
     }
+    mover->next = NULL;
+    free(mover);
     b_mover->next = NULL;
 }
 
@@ -148,6 +166,11 @@ void deleteFirst(Node **node){
 
 void Print(Node *node){
     int count = 0;
+
+    if(!(node)){
+        printf("No Data!\n");
+        return;
+    }
     while(1){
         printf("[ [%d] = %d ]\n",count,node->data);
         ++count;
