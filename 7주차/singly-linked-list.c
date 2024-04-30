@@ -185,6 +185,7 @@ void Print(Node *node){
 
 
 int main(){
+	printf("[----- [±èÅÂ¿µ] [2023041012] -----]\n");
     Node* Head;
     char c;
     do{
