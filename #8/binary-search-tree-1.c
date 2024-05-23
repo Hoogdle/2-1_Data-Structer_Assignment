@@ -35,7 +35,7 @@ Node* searchRecursive(Node* ptr, int key);  /* search the node for the key */
 Node* searchIterative(Node* head, int key);  /* search the node for the key */
 int freeBST(Node* head); /* free all memories allocated to the tree */
 
-void post_free(Node *ptr,Node* tail){
+void post_free(Node *ptr){
 	if(ptr){
 		post_free(ptr->left);
 		post_free(ptr->right);
@@ -74,8 +74,6 @@ int main()
 			break;
 		case 'q': case 'Q':
 			freeBST(head);
-			if(head==NULL){printf("success\n");}
-			if(head->left==NULL){printf("wow");}
 			break;
 		case 'n': case 'N':
 			printf("Your Key = ");
@@ -120,7 +118,7 @@ int main()
 			break;
 		}
 
-	}while(command != 'r' && command != 'R');
+	}while(command != 'q' && command != 'Q');
 
 	return 1;
 }
@@ -253,6 +251,7 @@ Node* searchRecursive(Node* ptr, int key)
 
 Node* searchIterative(Node* head, int key)
 {
+	head = head->left;
 	while(head){
 		if(key==head->key){return head;}
 
@@ -269,10 +268,14 @@ Node* searchIterative(Node* head, int key)
 
 int freeBST(Node* head)
 {
-	post_free(head);
+	post_free(head->left);
+	head->left=NULL;
+	free(head);
+	return 1;
 }
 
 
 
+// freeBST 부분 손보기!
 
 
