@@ -8,6 +8,12 @@
  *
  */
 
+// 자료구조 과제 #8
+// 이름 : 김태영
+// 학부 : 소프트웨어학부
+// 학번 : 2023041012
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,6 +34,14 @@ int deleteLeafNode(Node* head, int key);  /* delete the leaf node for the key */
 Node* searchRecursive(Node* ptr, int key);  /* search the node for the key */
 Node* searchIterative(Node* head, int key);  /* search the node for the key */
 int freeBST(Node* head); /* free all memories allocated to the tree */
+
+void post_free(Node *ptr,Node* tail){
+	if(ptr){
+		post_free(ptr->left);
+		post_free(ptr->right);
+		free(ptr);
+	}
+}
 
 /* you may add your own defined functions if necessary */
 
@@ -60,6 +74,8 @@ int main()
 			break;
 		case 'q': case 'Q':
 			freeBST(head);
+			if(head==NULL){printf("success\n");}
+			if(head->left==NULL){printf("wow");}
 			break;
 		case 'n': case 'N':
 			printf("Your Key = ");
@@ -104,7 +120,7 @@ int main()
 			break;
 		}
 
-	}while(command != 'q' && command != 'Q');
+	}while(command != 'r' && command != 'R');
 
 	return 1;
 }
@@ -127,44 +143,133 @@ int initializeBST(Node** h) {
 
 void inorderTraversal(Node* ptr)
 {
-
+	if(ptr){
+		inorderTraversal(ptr->left);
+		printf("[%d] ",ptr->key);
+		inorderTraversal(ptr->right);
+	}
 }
 
 void preorderTraversal(Node* ptr)
 {
-
+	if(ptr){
+		printf("[%d] ",ptr->key);
+		preorderTraversal(ptr->left);
+		preorderTraversal(ptr->right);
+	}
 }
 
 void postorderTraversal(Node* ptr)
 {
-
+	if(ptr){
+		postorderTraversal(ptr->left);
+		postorderTraversal(ptr->right);
+		printf("[%d] ",ptr->key);
+	}
 }
 
 
 int insert(Node* head, int key)
-{
+{	
+	Node* temp;
+	temp = (Node*)malloc(sizeof(Node));
+	temp->left = NULL;
+	temp->right = NULL;
+	temp->key = key;
 
+	if(!(head->left)){
+		head->left = temp;
+		return 1;
+	}
+
+	head = head->left;
+	Node* tail = NULL;
+	while(head){
+		if(key<head->key){
+			tail = head;
+			head = head->left;
+		}
+		else{
+			tail = head;
+			head = head->right;
+		}
+	}
+	if(key<tail->key){tail->left = temp;}
+	else{tail->right = temp;}
+	
 }
 
 int deleteLeafNode(Node* head, int key)
 {
+	if(!(head->left)){
+		printf("Tree is empty!\n");
+		return 1;
+	}
+
+	head = head->left;
+	Node* tail = NULL;
+	while(head){
+		if(head->key == key){break;}
+		if(key<head->key){
+			tail = head;
+			head = head->left;
+		}
+		else{
+			tail = head;
+			head = head->right;
+		}
+	}
+
+	// 값을 찾은 경우
+	if(head){
+		// leaf node가 아닌 경우
+		if(!(head->left==NULL && head->right==NULL)){
+			printf("[%d] is not leaf node!\n",head->key);
+			return 1;
+		}
+		// leaf node인 경우 해당 노드삭제
+		if(tail->left==head){
+			tail->left = NULL;
+		}
+		else if(tail->right==head){
+			tail->right = NULL;
+		}
+		free(head);
+	}
+
 
 }
 
 Node* searchRecursive(Node* ptr, int key)
 {
+	if(!(ptr)){
+		return NULL;
+	}
 
+	if(key==ptr->key){return ptr;}
+	else if(key<ptr->key){return searchRecursive(ptr->left,key);}
+	else{return searchRecursive(ptr->right,key);}
 }
 
 Node* searchIterative(Node* head, int key)
 {
+	while(head){
+		if(key==head->key){return head;}
 
+		if(key<head->key){
+			head = head->left;
+		}
+		else if(key>head->key){
+			head = head->right;
+		}
+	}
+	return NULL;
 }
 
 
 int freeBST(Node* head)
 {
-
+	post_free(head);
 }
 
 
