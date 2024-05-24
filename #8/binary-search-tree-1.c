@@ -63,9 +63,9 @@ void post_free(Node *ptr){ // freeBST에서 recursvie 방식을 사용하여 동
 
 int main()
 {
-	char command;
-	int key;
-	Node* head = NULL;
+	char command; // 명령을 저장할 변수
+	int key; // 트리 노드의 키
+	Node* head = NULL; // 루트노드를 가리킬 포인터 헤드
 	Node* ptr = NULL;	/* temp */
 
 	while(1){
@@ -142,23 +142,25 @@ int main()
 int initializeBST(Node** h) {
 
 	/* if the tree is not empty, then remove all allocated nodes from the tree*/
-	if(*h != NULL){
-		freeBST(*h);
+	if(*h != NULL){ // head가 이미 initialized 되어 있다면 해당 트리의 모든 노드를 동적 메모리 해지를 해줘야 합니다.
+		freeBST(*h); // head가 가리키는 node를 동적메모리 해지
 	}	
 
 	/* create a head node */
-	*h = (Node*)malloc(sizeof(Node));
-	(*h)->left = NULL;	/* root */
-	(*h)->right = *h;
-	(*h)->key = -9999;
+	*h = (Node*)malloc(sizeof(Node)); // head가 동적메모리 할당된 노드를 가리키도록
+	(*h)->left = NULL;	/* root */ // head가 가리키는 노드의 왼쪽 포인터를 NULL 이 포인터가 root 노드를 가리키게 됩니다.
+	(*h)->right = *h; // 오른쪽 포인터는 다시 head를 가리키도록 이쪽 포인터는 쓰지 않습니다.
+	(*h)->key = -9999; // head 노드의 값을 -9999로 설정합니다.
 	return 1;
 }
 
 
 
-void inorderTraversal(Node* ptr)
+void inorderTraversal(Node* ptr) // LVR 순회
 {
-	if(ptr){
+	// 이 함수는 순환 구조를 가집니다. 
+	// 
+	if(ptr){ 
 		inorderTraversal(ptr->left);
 		printf("[%d] ",ptr->key);
 		inorderTraversal(ptr->right);
