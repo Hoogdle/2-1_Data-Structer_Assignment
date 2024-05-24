@@ -54,7 +54,7 @@ int isEmpty(Queue *q){
 int isFull(Queue *q){
 	return (q->rear+1)%(q->max)==q->front; 
 	// 원형 큐에서는 rear+1이 front와 같다면 full인 상태에 해당한다.
-	// 나머지 연산을 통해 last index를 넘어가면 index 0 으로 보내준다.
+	// 나머지 연산을 통해 last index를 넘어가면 index 0 으로 보내준다.	
 
 }
 
