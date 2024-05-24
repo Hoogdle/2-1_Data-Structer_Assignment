@@ -159,79 +159,112 @@ int initializeBST(Node** h) {
 void inorderTraversal(Node* ptr) // LVR 순회
 {
 	// 이 함수는 순환 구조를 가집니다. 
-	// 
-	if(ptr){ 
-		inorderTraversal(ptr->left);
-		printf("[%d] ",ptr->key);
-		inorderTraversal(ptr->right);
+	// 루트노드에서 시작하여 계속해서 이 함수를 부르게 되는데 prt->left가 함수의 매개변수로 먼저 걸리게 되므로
+	// 먼저 왼쪽 최하단 노드에 도달하게 됩니다. 왼쪽 최하단 노드 기준 ptr->left와 ptr->right는 모두 null 이므로 
+	// 왼쪽 최하단 노드의 값과 부모노드의 값이 순차대로 출력되게 됩니다. 이 후 ptr->right가 매개변수 들어가게 되어
+	// 오른쪽 서브트리의 왼쪽 최하단 노드에 도달할 때 까지 함수가 계속 호출됩니다.
+
+	// 위 과정을 요약하면 아래의 리프노드 부터 시작하여 LVR순으로 노드의 값이 출력되며 해당 서브트리의 모든 노드의 값이 출력되면
+	// 부모 노드로 올라가서 모든 노드의 값이 출력될 때까지 LVR순으로 값이 출력되게 됩니다.
+	if(ptr){ // 함수의 인자의 주소가 NULL이 아니라면 아래 블록 실행(리프노드 left와 right가 NULL 이기 때문에 이 조건문에 걸리게 됩니다.)
+		inorderTraversal(ptr->left); // 왼쪽 자식노드의 주소가 먼저 들어갑니다(왼쪽 최하단 노드에서 시작되게 됨 + LVR 순서를 위해)
+		printf("[%d] ",ptr->key); // 노드의 값을 출력
+		inorderTraversal(ptr->right); // 오른쪽 자식노드의 주소가 이후 들어갑니다.
+		// 위의 같은 순서로 자식노드가 함수에 들어가야 LVR이 구현됩니다.
 	}
 }
 
-void preorderTraversal(Node* ptr)
+void preorderTraversal(Node* ptr) // VLR 순회
 {
+	// 위 함수 LVR 순회에서의 아이디어는 같지만 순서가 값출력 -> 왼쪽 자식 -> 오른쪽 자식으로 변경되었습니다.
+	// V의 값을 출력하면서 먼저 왼쪽 서브트리로 내려가게 됩니다. 왼쪽 서브트리에서 출력할 수 있는 모든 V의 값이 출력되면
+	// 오른쪽 서브트리를 탐색하기 시작하여 오른쪽 서브트리 기준 왼쪽으로 계속 내려가면서 출력할 수 있는 모든 V 값이 출력합니다.
+	// 위 과정이 모든 노드에 적용되면 VLR 순회가 완료됩니다.
 	if(ptr){
-		printf("[%d] ",ptr->key);
-		preorderTraversal(ptr->left);
-		preorderTraversal(ptr->right);
+		printf("[%d] ",ptr->key); // 먼저 노드의 값(V)를 출력합니다/ 
+		preorderTraversal(ptr->left); // 해당 노드의 왼쪽 자식 노드의 주소가 들어갑니다. 이 함수가 반복되면서 
+									  // V의 값 출력->왼쪽 자식 노드로 이동이 반복되며 왼쪽 최하단 노드에 도달할 때 까지 반복합니다.
+		preorderTraversal(ptr->right); // 위 함수가 종료(왼쪽 서브트리의 모든 V값이 출력)되었으면 이제는 오른쪽 서브트리를 탐색하여
+										// 오른쪽 서브트리 기준 왼쪽 최하단 노드에 도달 할 때까지 V의 값을 출력합니다.
 	}
 }
 
-void postorderTraversal(Node* ptr)
+void postorderTraversal(Node* ptr) // LRV 순회
 {
-	if(ptr){
-		postorderTraversal(ptr->left);
-		postorderTraversal(ptr->right);
-		printf("[%d] ",ptr->key);
+	// 아이디어는 위의 순회 알고리즘과 동일하지만 값 출력의 순서에 변화가 있습니다.
+
+	// 루트 노드에서 시작
+	if(ptr){ // 함수 인자의 주소가 NULL 이 아니라면 아래 블록 실행
+		postorderTraversal(ptr->left); // 이 함수가 순환하면서 왼쪽 최하단 노드에 도달하게 됩니다. 최하단 노드 기준 left와 right는 모든 NULL
+									   // 이므로 printf를 통해 노드의 key 값이 출력되며 그 다음으로는 최하단 노드의 부모 노드의 ptr->right로 함수가 진행됩니다.
+									   // 위에서 ptr->right는 왼쪽 최하단 노드의 형제 노드가 되고 해당 노드의 left와 right는 모두 NULL 이므로 key 값이 출력되게 됩니다.
+		postorderTraversal(ptr->right); 
+		printf("[%d] ",ptr->key); // 이후 왼쪽 최하단 노드의 부모노드의 key 값이 출력되며 이렇게 하나하나 부모노드를 향해 올라가게 되며 모든 노드의 key가 출력될 때 까지 반복됩니다.
 	}
 }
 
 
-int insert(Node* head, int key)
+int insert(Node* head, int key) // Node 삽입함수
 {	
-	Node* temp;
-	temp = (Node*)malloc(sizeof(Node));
-	temp->left = NULL;
-	temp->right = NULL;
-	temp->key = key;
+	Node* temp; // 새로운 노드를 가리킬 포인터 변수 temp
+	temp = (Node*)malloc(sizeof(Node)); // temp에 Node 구조체를 동적 메모리할당
+	temp->left = NULL; // 새로 삽입되는 노드는 leaf node가 되므로 left와 right 모두 NULL로 초기화 해준다.
+	temp->right = NULL; // right NULL로
+	temp->key = key; // 새로 삽입될 노드의 key를 매개변수로 받은 key로 업데이트 해준다.
 
-	if(!(head->left)){
-		head->left = temp;
-		return 1;
+	if(!(head->left)){ // head left는 루트노드를 가리키는데 루트 노드가 존재하지 않는다면
+		head->left = temp; // 루트노드를 위에서 만든 temp로 지정해줍니다.
+		return 1; // 함수 종료
 	}
 
-	head = head->left;
-	Node* tail = NULL;
-	while(head){
-		if(key<head->key){
-			tail = head;
-			head = head->left;
+	// 루트 노드가 존재하는 경우 (== 기존에 이미 트리가 있는 경우)
+	head = head->left; // head를 일단 루트노드로 설정해줍니다.
+	Node* tail = NULL; // head 포인터 바로 뒤를 따라갈 포인터 변수 tail
+	while(head){ // head가 NULL이 아닐 때 까지 반복합니다.
+				 // 아래 과정에서 head가 트리의 아래로 계속 내려가게 되는데 head가 NULL이라는 것은 tail이 leaf node에
+				 // 도달했다는 것입니다.
+		if(key<head->key){ // 포인터 변수 head가 어디로 움직일지 결정해줍니다. 트리는 부모노드 기준 왼쪽에는 작은 값 오른쪽에는 큰 값을
+						   // 배치하므로 그 form에 맞도록 해줍니다.
+						   // 새로운 노드의 key 값이 부모노드의 key 값보다 작은 경우 이므로 left child 로 가야합니다.
+			tail = head; // tail이 head의 직전 주소를 가리키게 합니다.
+			head = head->left; // head를 왼쪽 자식 노드를 가리키게 합니다.
 		}
-		else{
-			tail = head;
-			head = head->right;
+		else{ // 새로운 노드 key가 부모 노드의 key 보다 큰 경우
+			tail = head; // tail이 head의 직전 주소를 가리키게 합니다.
+			head = head->right;// head를 오른쪽 자식 노드를 가리키게 합니다.
 		}
 	}
-	if(key<tail->key){tail->left = temp;}
-	else{tail->right = temp;}
-	
+	// tail를 둔 이유는 위 while문 조건이 head가 NULL인 경우에 끝나게 되므로 head의 직전 주소를 저장해야만 합니다.
+
+	// 위 과정을 거치면 새로운 노드의 부모노드를 tail이 가리키게 됩니다.
+
+	// key 값이 tail 보다 작은 경우 tail 왼편에 key를, 큰 경우에는 오른편에 key가 들어가게 합니다.
+	if(key<tail->key){tail->left = temp;} // key 값이 tail key 보다 작은 경우 왼편에
+	else{tail->right = temp;} // key 값이 tail key 보다 큰 경우 오른편에
 }
 
-int deleteLeafNode(Node* head, int key)
+int deleteLeafNode(Node* head, int key) // leafnode를 삭제하는 함수
 {
-	if(!(head->left)){
-		printf("Tree is empty!\n");
+	if(!(head->left)){ // head->left는 루트 노드를 가리키는 이게 NULL 이라면 Tree가 비었다는 것을 의미하므로 
+		printf("Tree is empty!\n"); // 트리가 비었다고 출력한 후 함수를 종료합니다.
 		return 1;
 	}
 
-	head = head->left;
-	Node* tail = NULL;
-	while(head){
-		if(head->key == key){break;}
-		if(key<head->key){
-			tail = head;
-			head = head->left;
+	head = head->left; // head가 루트노드를 가리키게 합니다.
+	Node* tail = NULL; // head의 직전 주소를 저장할 포인터 tail 선언 및 NULL로 초기화
+
+
+
+
+
+	while(head){ // head가 NULL이 될 때까지 반복해줍니다. head가 NULL이 되면 삭제해야할 노드의 주소를 잃게 되므로
+				// head 직전 주소를 저장할 tail 포인터를 위에서 선언해줬습니다.
+		if(head->key == key){break;} // 만약 head가 가리키는 key가 내가 찾는 key라면 반복문에서 나옵니다.
+		if(key<head->key){ // 내가 찾는 key가 head key 보다 작다면 key는 왼쪽에 있으므로 head를 왼쪽으로 이동시킵니다.
+			tail = head; // tail이 head 직전 주소를 가리키게 합니다.
+			head = head->left; // head를 왼쪽 자식을 가리키게 합니다.
 		}
-		else{
+		else{ // 내가 찾는 key가 head의 key 보다 큰 경우
 			tail = head;
 			head = head->right;
 		}
