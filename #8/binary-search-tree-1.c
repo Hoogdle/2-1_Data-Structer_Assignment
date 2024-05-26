@@ -68,7 +68,7 @@ int main()
 	Node* head = NULL; // 루트노드를 가리킬 포인터 헤드
 	Node* ptr = NULL;	/* temp */
 
-	while(1){
+	while(1){ // q or Q가 입력될 때 까지 반복
 		printf("\n\n");
 		printf("----------------------------------------------------------------\n");
 		printf("                   Binary Search Tree #1                        \n");
@@ -81,46 +81,47 @@ int main()
 		printf("----------------------------------------------------------------\n");
 
 		printf("Command = ");
-		scanf(" %c", &command);
+		// 사용자 입력 메뉴얼 부분
+		scanf(" %c", &command); // 명령을 입력받습니다.
 
-		switch(command) {
-		case 'z': case 'Z':
+		switch(command) { // 명령에 따라 동작하는 switch 문
+		case 'z': case 'Z': // 명령 == z or Z 라면 노드 초기화(초기 세팅)
 			initializeBST(&head);
 			break;
-		case 'q': case 'Q':
+		case 'q': case 'Q': // 명령 == q or Q 라면 모든 노드 해지 및 종료
 			freeBST(head);
 			return 0;
 			break;
-		case 'n': case 'N':
-			printf("Your Key = ");
-			scanf("%d", &key);
-			insert(head, key);
+		case 'n': case 'N': // 명령 == n or N 라면 insert 동작
+			printf("Your Key = "); 
+			scanf("%d", &key); // insert를 위해 key를 입력 받습니다.
+			insert(head, key); // 입력받은 key를 insert합니다.
 			break;
-		case 'd': case 'D':
+		case 'd': case 'D': // 명령 == d or D라면 delete 동작실행
 			printf("Your Key = ");
-			scanf("%d", &key);
-			deleteLeafNode(head, key);
+			scanf("%d", &key); // 입력받은 key를 삭제해야 하므로 값을 입력 받습니다.
+			deleteLeafNode(head, key); // 입력받은 key를 삭제하는 함수 실행
 			break;
-		case 'f': case 'F':
+		case 'f': case 'F': // 명령 == f or F라면 non recursvie 탐색 실행
 			printf("Your Key = ");
-			scanf("%d", &key);
-			ptr = searchIterative(head, key);
-			if(ptr != NULL)
-				printf("\n node [%d] found at %p\n", ptr->key, ptr);
-			else
-				printf("\n Cannot find the node [%d]\n", key);
+			scanf("%d", &key); // 입력받은 key를 탐색해야 하므로 key 입력
+			ptr = searchIterative(head, key); // 이 함수의 return은 null or 노드 주소이므로 return 값을 ptr에 저장
+			if(ptr != NULL) // NULL이 아니라면 값을 찾았다는 것을 의미
+				printf("\n node [%d] found at %p\n", ptr->key, ptr); // 해당 값을 찾았다고 출력
+			else // NULL이라면 값을 못 찾음을 의미
+				printf("\n Cannot find the node [%d]\n", key); // 값을 못 찾았다고 출력
 			break;
-		case 's': case 'S':
+		case 's': case 'S': // 명령 == s or S라면 recursvie search 실행
 			printf("Your Key = ");
-			scanf("%d", &key);
-			ptr = searchRecursive(head->left, key);
-			if(ptr != NULL)
-				printf("\n node [%d] found at %p\n", ptr->key, ptr);
-			else
-				printf("\n Cannot find the node [%d]\n", key);
+			scanf("%d", &key); // 입력받은 key를 search하는 것이므로 값 입력 받기
+			ptr = searchRecursive(head->left, key); // 이 함수의 return은 null or 노드 주소이므로 return 값을 ptr에 저장
+			if(ptr != NULL)// NULL이 아니라면 값을 찾았다는 것을 의미
+				printf("\n node [%d] found at %p\n", ptr->key, ptr);// 해당 값을 찾았다고 출력
+			else// NULL이라면 값을 못 찾음을 의미
+				printf("\n Cannot find the node [%d]\n", key);// 값을 못 찾았다고 출력
 			break;
-
-		case 'i': case 'I':
+		// i or I인 경우 LVR탐색, p or P인 경우 VLR탐색, t or T인 경우 LRV탐색을 수행하게 합니다.
+		case 'i': case 'I': 
 			inorderTraversal(head->left);
 			break;
 		case 'p': case 'P':
@@ -129,6 +130,7 @@ int main()
 		case 't': case 'T':
 			postorderTraversal(head->left);
 			break;
+		// 잘못된 명령 입력시 사용자에게 주의를 요하는 출력 실행
 		default:
 			printf("\n       >>>>>   Concentration!!   <<<<<     \n");
 			break;
@@ -136,7 +138,7 @@ int main()
 
 	}
 
-	return 1;
+	return 1; // 함수 종료
 }
 
 int initializeBST(Node** h) {
@@ -264,70 +266,104 @@ int deleteLeafNode(Node* head, int key) // leafnode를 삭제하는 함수
 			tail = head; // tail이 head 직전 주소를 가리키게 합니다.
 			head = head->left; // head를 왼쪽 자식을 가리키게 합니다.
 		}
-		else{ // 내가 찾는 key가 head의 key 보다 큰 경우
-			tail = head;
-			head = head->right;
+		else{ // 내가 찾는 key가 head의 key 보다 큰 경우, head 포인터를 오른쪽 자식 노드로 이동시킵니다.
+			tail = head; // tail이 head를 뒤 따라 가게합니다.
+			head = head->right; // head를 오른쪽 자식 노드를 가리키게 합니다.
 		}
 	}
 
+	// 위의 반복문을 빠져나오면 head는 NULL 이거나 NULL이 아닌 두 가지 상태중 하나의 상태에 놓이게 됩니다.
+	// head가 NULL인 경우는 leaf node까지 모두 탐색했지만 값을 찾지 못한 상태를 의미하며
+	// head가 NULL이 아닌 경우는 tree안에 삭제할 노드를 발견했다는 의미입니다.
+	// 따라서 아래와 같이 if문을 사용하여 두 가지 경우를 분류하여 처리하였습니다.
+
+	// tree 내에 값이 존재하지 않는 경우
+	if(!head){ // head가 NULL이라면 전체 tree를 탐색해도 해당 값을 찾지 못하였다는 의미입니다.
+		printf("[%d] is not in the Tree!\n",key); // key값을 tree에서 찾지 못했다는 출력문
+		return 1; // 함수 종료
+	}
 	// 값을 찾은 경우
-	if(head){
+	if(head){ // head가 NULL이 아니라면 Tree내에서 값을 찾았다는 것을 의미합니다.
+			// 값은 존재하지만 이 노드가 leaf 노드인지 아닌지를 확인해야 합니다.
+
 		// leaf node가 아닌 경우
-		if(!(head->left==NULL && head->right==NULL)){
-			printf("[%d] is not leaf node!\n",head->key);
-			return 1;
+		// head가 가리키는 노드, 즉 내가 삭제할 값의 노드의 양쪽 자식이 노드 포인터가 NULL이어야 leaf node가 됩니다.
+		if(!(head->left==NULL && head->right==NULL)){ // 조건문으로 양쪽 자식노드가 NULL인지 즉 leaf node인지 확인합니다.
+			printf("[%d] is not leaf node!\n",head->key); // 위 조건은 양쪽 자식노드가 NULL이 아닌 조건이므로
+															// leaf node가 아니라고 출력해줍니다.
+			return 1;										// 함수를 종료합니다.
 		}
 		// leaf node인 경우 해당 노드삭제
-		if(tail->left==head){
-			tail->left = NULL;
+		// 위 조건문을 pass했다면 leaf node인 것이므로 head가 가리키는 노드를 삭제해줍니다.
+		// head 노드가 삭제되므로 삭제되기 전에 head의 부모를 가리키는 tail노드의 왼쪽 자식이 head인지 오른쪽 자식이 head
+		// 인지 확인해야 합니다.(부모노드 입장에서 삭제되는 자식노드의 포인터 부분을 NULL로 만들기 위해 확인)
+		if(tail->left==head){ // 왼쪽 자식이 head인 경우
+			tail->left = NULL; // 부모노드(tail)의 왼쪽을 NULL로 변경
 		}
-		else if(tail->right==head){
-			tail->right = NULL;
+		else if(tail->right==head){ // 오른쪽 자식이 head인 경우
+			tail->right = NULL; // 부모노드(tail)의 오른쪽을 NULL로 변경
 		}
-		free(head);
+		free(head); // head가 가리키는 노드(삭제할 노드)를 메모리 해지
 	}
 
 
 }
 
+// recursive 방식으로 key 찾는 함수
 Node* searchRecursive(Node* ptr, int key)
 {
-	if(!(ptr)){
+	if(!(ptr)){ // 인자로 받은 ptr이 NULL 이라면 Tree가 empty 이므로 NULL를 리턴합니다.
 		return NULL;
 	}
 
-	if(key==ptr->key){return ptr;}
-	else if(key<ptr->key){return searchRecursive(ptr->left,key);}
-	else{return searchRecursive(ptr->right,key);}
+	if(key==ptr->key){return ptr;} // 내가 찾는 key와 ptr이 가라키는 노드의 key가 같다면 해당 값을 찾은 것이므로
+									// 해당 노드를 가리키는 ptr의 주소를 리턴 합니다.
+
+	// 값이 같지 않다면 2가지 경우 중 어느 케이스인지 확인해야 합니다. 
+	// 찾는 key가 현재 노드의 key보다 작은 경우와 큰 경우를 나누어서, 전자라면 현재 노드의 왼쪽 자식노드를 함수에
+	// 후자라면 현재 노드의 오른쪽 자식노드를 함수에 넣어 순환구조를 만듭니다.
+	else if(key<ptr->key){return searchRecursive(ptr->left,key);} // 찾는 key가 현재 노드보다 작은 경우이므로 
+																	// 왼쪽 자식노드를 인자에
+	else{return searchRecursive(ptr->right,key);}// 찾는 key가 현재 노드보다 큰 경우이므로 
+																	// 오른쪽 자식노드를 인자에 넣어줍니다.
+	// tree는 부모노드를 기준으로 작은 값이 왼편, 큰 값이 오른편에 들어가므로 위와 같이 경우를 구분해서 함수인자에 넣었습니다.
+	// 또한 이렇게 순환구조를 만들게 되면 값의 조건에 따라 왼쪽 자식 또는 오른쪽 자식이 함수에 반복적으로 들어가게 되며
+	// ptr이 NULL(값이 존재 x)이거나 key와 같은 ptr의 주소 값을 return 할 때 까지 순환함수가 반복되며 
+	// 앞에 언급한 return인 경우를 찾은 경우 return이 반복되어 결국 NULL 또는 찾는 노드의 주소 값이 return 됩니다.
 }
 
+
+// non-recursive한 search 함수
+// key를 가진 노드를 찾으면 return head로 해당 노드의 주소값을 리턴한 후 바로 함수를 종료합니다.
+// 만약 key값의 노드를 끝까지 찾지 못하면 반복문이 종료되며 NULL이 리턴되는 구조입니다.
 Node* searchIterative(Node* head, int key)
 {
-	head = head->left;
-	while(head){
-		if(key==head->key){return head;}
+	head = head->left; // head를 루트 노드를 가리키게합니다.
+	while(head){ // head가 NULL(== 값을 찾지 못한 경우 == leaf node의 자식 노드까지 탐색한 경우)일 때 까지 반복합니다.
+		if(key==head->key){return head;} // 찾는 key와 head가 가리키는 노드의 key가 같다면 head의 주소를 리턴합니다.
 
-		if(key<head->key){
-			head = head->left;
+		// key와 head의 key가 다른 경우
+		if(key<head->key){ // key의 값이 haed의 key 값보다 작다면 head를 왼쪽 자식을 가리키게 합니다.
+			head = head->left; 
 		}
-		else if(key>head->key){
+		else if(key>head->key){ // key의 값이 head의 key 값보다 크다면 head를 오른쪽 자식을 가리키게 합니다.
 			head = head->right;
 		}
 	}
-	return NULL;
+	return NULL; // 반복문을 빠져나온 경우는 값을 찾지 못한 경우이므로 NULL를 리턴합니다.
 }
 
-
+// 모든 노드를 메모리 해제하는 함수
 int freeBST(Node* head)
 {
-	post_free(head->left);
-	head->left=NULL;
-	free(head);
-	return 1;
+	post_free(head->left); // 사전에 만든 post_free 함수에 루트노드의 주소를 넣어줍니다.(위의 post_free 함수를 확인해주세용)
+	head->left=NULL; // 위 함수를 거치면 모든 노드의 메모리가 해지 됩니다. 
+					// 루트노드를 가리키는 왼쪽 노드의 포인터가 루트 노드를 가리키고 있었으므로 해당 포인터를 NULL로 만듭니다.
+	free(head); // 루트노드를 가리키던 노드를 메모리 해지시킵니다.
+	return 1; // 함수 종료
 }
 
 
 
-// freeBST 부분 손보기!
 
 
