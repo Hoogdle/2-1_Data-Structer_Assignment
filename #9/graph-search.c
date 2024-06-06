@@ -9,6 +9,32 @@ typedef struct Node{
 int flag[10];
 int activate[10];
 
+// DFS를 위한 스택
+int stack[10];
+int top = -1;
+
+void push(int node){
+    stack[++top] = node;
+}
+
+int pop(){
+    return stack[top--];
+}
+
+// BFS를 위한 큐
+int queue[10];
+int front = -1;
+int rear = -1;
+
+void enqueue(int node){
+    queue[++front] = node;
+}
+int dequeue(){
+    return queue[++rear];
+}
+
+
+
 Node* Initialize_graph(){
     Node* array;
     array = (Node*)malloc(sizeof(Node)*10);
@@ -28,6 +54,13 @@ void Insert_edge(int head,int tail,Node *array){
     if(activate[head]==0||activate[tail]==0){
         printf("Node doesn't exit!\n");
         return;
+    }
+    // simple graph를 기준으로 하므로 간선이 중첩됬는지 검사
+    for(Node *ptr = array[head].next;ptr;ptr=ptr->next){
+        if(ptr->node_num==tail){
+            printf("Edge Already Exist!\n");
+            return;
+        }
     }
 
     // 삽입 되는 노드 만들어주기
@@ -79,8 +112,56 @@ void Print_graph(Node *array){
     }
 }
 
-void Breath_First_Search(Node* array,int key){
+void Depth_First_Search(Node* array,int key){
+    flag[key] = 1;
+    push(key);
+    printf(" [%d] -> ",stack[top]);
+    Node *ptr = array[key].next;
+    while(1){
+        if(ptr==NULL){
+            pop();
+            if(top==-1){
+                printf("[end]\n");
+                for(int i=0;i<10;++i){
+                    flag[i] = 0;
+                }
+                return;
+            }
+            ptr = array[stack[top]].next;
+        }
 
+        if(flag[ptr->node_num]==0){
+            flag[ptr->node_num]=1;
+            push(ptr->node_num);
+            printf(" [%d] -> ",stack[top]);
+            ptr = array[ptr->node_num].next;
+        }
+        else{
+            ptr = ptr->next;
+        }
+    }
+}
+
+void Breath_First_Search(Node* array,int key){
+    enqueue(key);
+    key = dequeue();
+    printf(" [%d] -> ",key);
+    flag[key] = 1;
+    while(1){
+        for(Node* ptr = array[key].next;ptr;ptr=ptr->next){
+            if(flag[ptr->node_num]==0){
+                flag[ptr->node_num]=1;
+                enqueue(ptr->node_num);
+            }
+        }
+        if(front==rear){break;}
+        key = dequeue();
+        printf(" [%d] -> ",key);
+    }
+    printf("[end]\n");
+    for(int i=0;i<10;++i){
+         flag[i] = 0;
+    }
 }
 
 int main(){
@@ -117,9 +198,18 @@ int main(){
             continue;
         }
         if(command=='d'){
+            int key;
+            printf("Starting Point : ");
+            scanf("%d",&key);
+            Depth_First_Search(head,key);
             continue;
         }
         if(command=='b'){
+            int key;
+            printf("Starting Point : ");
+            scanf("%d",&key);
+            Breath_First_Search(head,key);
+            continue;
             continue;
         }
         if(command=='p'){
