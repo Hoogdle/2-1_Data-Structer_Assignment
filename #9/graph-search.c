@@ -174,62 +174,92 @@ void Print_graph(Node *array){
 }
 
 // DFS (깊이 우선 탐색)
-// 인접리스트의 주소와
+// 인접리스트의 주소와 탐색을 시작할 key(node_num)를 매개변수로 받습니다.
+// 초기 node_num을 스택에 넣어줍니다. 스택에 존재하는 노드가 flag가 비활성화된 어떤 노드와 연결되어 있다면
+// 해당 node의 flag를 활성화하고 스택에 넣어줍니다.(stack에 들어가는 모든 노드들을 push전에 print를 해줍니다.)
+// 위 과정을 반복하다가 더 이상 flag가 비활성화된 노드 중 push할 노드가 존재하지 않는다면 pop해줍니다.
+// pop한 후 top이 가리키는 노드를 기준으로 위의 과정을 반복해줍니다.(stack이 빌 때 까지 반복)
 void Depth_First_Search(Node* array,int key){
-    flag[key] = 1;
-    push(key);
-    printf(" [%d] -> ",stack[top]);
-    Node *ptr = array[key].next;
+    flag[key] = 1; // 입력 받은 시작 node_num의 flag를 활성화
+    push(key); // 스택에 시작 node_num을 넣어줍니다.
+    printf(" [%d] -> ",stack[top]); // 시작 node_num의 값을 출력하빈다.
+    Node *ptr = array[key].next; // 탐색을 돕는 포인터를 선언 후 시작 인접리스트에서 시작 node_num 인덱스 요소가
+                                        // 가리키는 첫 번째 노드의 주소로 포인터를 초기화 합니다.
     while(1){
-        if(ptr==NULL){
+        if(ptr==NULL){ // ptr이 NULL이라는 의미는 인접리스트의 어떤 인덱스와 연결된 모든 노드 중 어떠한 노드도
+                            // 스택에 푸쉬할 노드가 없다는 것을 의미합니다. 즉, 더 이상 해당 노드와 연결된 노드 중
+                             // 스택에 푸쉬할 노드가 없으므로 pop을 진행합니다.
             pop();
-            if(top==-1){
+            if(top==-1){ // pop 이후 top == -1 (== 스택이 빔)이라면 탐색이 끝난 것을 의미하므로
+                            // flag를 모두 0으로 초기화(다음의 탐색을 위해)한 후 함수를 종료합니다.
                 printf("[end]\n");
-                for(int i=0;i<10;++i){
+                for(int i=0;i<10;++i){ // flag 초기화 부분
                     flag[i] = 0;
                 }
                 return;
             }
+            // pop 이후에도 아직 스택에 원소가 남아있다면 스택의 top이 가리키는 값을 인접리스트의 인덱스로 하여
+            // 해당 인덱스와 연결된 노드 중 flag가 비활성화 된 노드가 있는지 확인해야 합니다.
+            // 따라서 ptr값을 top이 가리키는 값을 인접리스트의 인덱스로 한 next의 주소로 초기화 합니다.
             ptr = array[stack[top]].next;
         }
 
-        if(flag[ptr->node_num]==0){
-            flag[ptr->node_num]=1;
-            push(ptr->node_num);
-            printf(" [%d] -> ",stack[top]);
-            ptr = array[ptr->node_num].next;
+        // flag가 비활성화 된 노드가 존재한다면 해당 노드의 flag를 활성화 시키고 스택에 push 해줍니다.
+        if(flag[ptr->node_num]==0){ // flag가 비활성화 되어 있다면
+            flag[ptr->node_num]=1; // flag를 활성화하고
+            push(ptr->node_num); // 스택에 넣어준다.
+            printf(" [%d] -> ",stack[top]); // 넣은 값을 출력해준다.
+            ptr = array[ptr->node_num].next; // ptr의 값은 ptr이 가리키던 값을 인덱스로 하여 인접리스트의 인덱스의
+                                                // next값으로 업데이트 합니다.
         }
         else{
-            ptr = ptr->next;
+            ptr = ptr->next; // flag가 이미 활성화가 된 경우라면 다음 노드로 이동합니다.
         }
     }
 }
 
+
+// BFS(너비 우선 탐색)
+// 시작 node_num을 먼저 enqeue 한 후 deqeue 해줍니다. 
+// 위 과정 속에 일정한 규칙이 존재하는데, dequeue를 할 때는 dequeue를 하는 노드와 연결된 노드중 flag가 비활성인 노드는
+// 모두 enqueue를 해줘야 합니다. 위 과정을 큐가 빌 때(front==rear) 까지 반복합니다.
+
+// 함수의 매개변수로 인접리스트의 주소와 시작 key를 받습니다.
 void Breath_First_Search(Node* array,int key){
-    enqueue(key);
-    key = dequeue();
-    printf(" [%d] -> ",key);
-    flag[key] = 1;
+    enqueue(key); // key(node_num)을 enqueue 합니다.
+    key = dequeue(); // key에 dequeue값을 담습니다.
+    printf(" [%d] -> ",key); // dequeue값을 출력합니다.
+    flag[key] = 1; // dequeue한 값의 flag를 활성화 시킵니다.
+    // 위 과정에서 key의 enqueue과정과 dequeue 과정은 아무런 의미가 없지만 규칙성을 일반화하기 위해 작성해봤습니다.
     while(1){
-        for(Node* ptr = array[key].next;ptr;ptr=ptr->next){
-            if(flag[ptr->node_num]==0){
-                flag[ptr->node_num]=1;
-                enqueue(ptr->node_num);
+        for(Node* ptr = array[key].next;ptr;ptr=ptr->next){ // for문을 돌려 flag가 비활성화된 모든 node를
+                                                                // 추가합니다.
+            if(flag[ptr->node_num]==0){ // flag가 비활성이라면
+                flag[ptr->node_num]=1; // flag를 활성화 시키고
+                enqueue(ptr->node_num); // 해당 노드를 추가해줍니다.
             }
         }
-        if(front==rear){break;}
-        key = dequeue();
+        // 위 과정을 거치게 되면 최근 dequeue한 node와 인접한 노드중 flag가 비활성화인 모든 노드가
+        //  queue에 들어가게 됩니다.
+
+        if(front==rear){break;} 
+        key = dequeue(); // key값을 dequeue값으로 업데이트 해줍니다.
+        // 이렇게 key 값을 업데이트 하여 반복문을 돌려주면 해당 key 값을 기준으로 연결된(flag가 비활성화된)노드가
+        // enqueue되고 dequeue됨을 반복하여 BFS가 구현되게 됩니다.
         printf(" [%d] -> ",key);
+        // deqeue된 값을 출력해줍니다.
     }
     printf("[end]\n");
+    // BFS가 끝났으면 다음 번의 탐색을 위해 flag 값을 모두 0으로 초기화해줍니다.
     for(int i=0;i<10;++i){
          flag[i] = 0;
     }
 }
 
 int main(){
-    Node* head;
-    char command;
+    Node* head; // 인접리스트의 주소를 담는 head 포인터 
+    char command; // 명령어를 담는 command
+    // main문에는 메뉴얼을 작성하였습니다. 각 command 마다 해당 함수가 실행되게 작성하였습니다.
     while(1){
         printf("============================================\n");
         printf("                 Graph Search               \n");
@@ -240,19 +270,19 @@ int main(){
         printf("Print Graph        : p\t Quit                : q\n");
         
         printf("Command : ");
-        scanf(" %c", &command);
-        if(command=='z'){
+        scanf(" %c", &command); // 명령어를 입력받음
+        if(command=='z'){ // z는 그래프 초기화
             head = Initialize_graph();
             continue;
         }
-        if(command=='v'){
+        if(command=='v'){ // v는 노드 번호를 입력받아 해당 노드를 추가
             int num;
             printf("Vertex num : ");
             scanf("%d",&num);
             Insert_vertex(num);
             continue;
         }
-        if(command=='e'){
+        if(command=='e'){ // e는 edge 쌍을 입력받아 해당 edge 추가
             int p1,p2;
             printf("Head and Tail : ");
             scanf("%d %d",&p1,&p2);
@@ -260,14 +290,14 @@ int main(){
             Insert_edge(p2,p1,head);
             continue;
         }
-        if(command=='d'){
+        if(command=='d'){ // d는 시작지점을 입력받아 DFS 실행
             int key;
             printf("Starting Point : ");
             scanf("%d",&key);
             Depth_First_Search(head,key);
             continue;
         }
-        if(command=='b'){
+        if(command=='b'){ // b는 시작지점을 입력받아 BFS 실행
             int key;
             printf("Starting Point : ");
             scanf("%d",&key);
@@ -275,11 +305,11 @@ int main(){
             continue;
             continue;
         }
-        if(command=='p'){
+        if(command=='p'){ // p는 그래프를 인접리스트 형태로 출력
             Print_graph(head);
             continue;
         }
-        if(command=='q'){
+        if(command=='q'){ // q는 프로그램 종료
             return 0;
         }
     }
